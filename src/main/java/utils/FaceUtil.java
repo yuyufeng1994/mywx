@@ -35,9 +35,11 @@ public class FaceUtil {
         byteMap.put("image_file", buff);
         try{
             byte[] bacd = post(url, map, byteMap);
+            System.out.println("系统远程识别图片中……"+path);
             String str = new String(bacd);
             JSONObject json = JSONObject.parseObject(str);
             JSONArray jsonArray = JSONObject.parseArray(json.get("faces").toString());
+            System.out.println("系统远程识别完毕……"+path);
             return  jsonArray.size();
         }catch (Exception e) {
             e.printStackTrace();

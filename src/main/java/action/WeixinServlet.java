@@ -3,6 +3,7 @@ package action;
 import com.alibaba.fastjson.JSONObject;
 import org.dom4j.DocumentException;
 import po.TextMeaasge;
+import service.ResponseHander;
 import utils.CheckUtil;
 import utils.FaceUtil;
 import utils.FileDownloadUtil;
@@ -37,6 +38,7 @@ public class WeixinServlet extends HttpServlet {
         if (CheckUtil.checkSignature(signature, timestamp, nonce)) {
             out.print(echostr);        // 校验通过，原样返回echostr参数内容
         }
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,39 +48,7 @@ public class WeixinServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             Map<String, String> map = MessageUtil.xmlToMap(request);
-            String toUserName = map.get("ToUserName");
-            String fromUserName = map.get("FromUserName");
-            String msgType = map.get("MsgType");
-            String content = map.get("Content");
-            String PicUrl = map.get("PicUrl");
-            System.out.println("接收消息类型：" + msgType);
-            String message = null;
-            if ("text".equals(msgType)) {                // 对文本消息进行处理
-                TextMeaasge text = new TextMeaasge();
-                text.setFromUserName(toUserName);         // 发送和回复是反向的
-                text.setToUserName(fromUserName);
-                text.setMsgType("text");
-                text.setCreateTime(new Date().getTime());
-                text.setContent("你发送的消息是：" + content);
-                message = MessageUtil.textMessageToXML(text);
-                System.out.println(message);
-            } else if ("image".equals(msgType)) {
-                TextMeaasge text = new TextMeaasge();
-                text.setFromUserName(toUserName);         //
-                text.setToUserName(fromUserName);
-                text.setMsgType("text");
-                text.setCreateTime(new Date().getTime());
-
-//                System.out.println(message);
-                String upPath = "c://weixin_face/" + fromUserName + text.getCreateTime()+".png";
-                FileDownloadUtil.downloadFile(PicUrl, upPath);
-                System.out.println(upPath);
-                int res = FaceUtil.countPerson(upPath);
-                text.setContent("系统在你发送的图片中识别到了：" + res+" 个人");
-                message = MessageUtil.textMessageToXML(text);
-
-            }
-
+            String message = ResponseHander.doType(map);
             out.print(message);                            // 将回应发送给微信服务器
         } catch (DocumentException e) {
             e.printStackTrace();

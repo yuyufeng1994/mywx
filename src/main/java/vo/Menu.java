@@ -22,21 +22,46 @@ public class Menu {
         this.button = button;
     }
 
-    public static void main(String[] args) {
+
+    public static String getMenuSting(){
         Button button = new Button();
         button.setType("click");
-        button.setName("新闻");
-        button.setKey("BUTTON_NEWS");
+        button.setName("点击");
+        button.setKey("CLICK_ME");
 
-        Button button2 = new Button();
-        button2.setType("click");
-        button2.setName("绑定");
-        button2.setKey("BUTTON_DEPEND");
+        Button fb = new Button();
+        fb.setType("click");
+        fb.setName("功能");
+        fb.setKey("BUTTON_FUNCTION");
+
+        Button fb1 = new Button();
+        fb1.setName("1.人脸识别");
+        fb1.setType("click");
+        fb1.setKey("FN1");
+        fb.add(fb1);
+
+        Button fb2 = new Button();
+        fb2.setName("2.功能二");
+        fb2.setType("click");
+        fb2.setKey("FN2");
+        fb.add(fb2);
+
+        Button fb3 = new Button();
+        fb3.setName("3.VIEW_TEST");
+        fb3.setType("view");
+        fb3.setUrl("http://yyf.ngrok.cc/test");
+        fb.add(fb3);
+
 
         Menu menu = new Menu();
         menu.addButton(button);
-        menu.addButton(button2);
+        menu.addButton(fb);
 
-        System.out.println(JSONObject.toJSON(menu));
+        return JSONObject.toJSON(menu).toString();
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(getMenuSting());
     }
 }

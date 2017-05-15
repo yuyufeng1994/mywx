@@ -13,7 +13,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class CheckUtil {
 
-    private static final String token = "yyf";
+    private static final String token = "yyftest";
 
     public static boolean checkSignature(String signature, String timestamp, String nonce) {
 
