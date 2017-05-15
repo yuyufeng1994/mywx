@@ -1,5 +1,8 @@
 package service;
 
+import com.thoughtworks.xstream.XStream;
+import po.Item;
+import po.PicAndTextMessage;
 import po.TextMeaasge;
 import utils.MessageUtil;
 
@@ -38,6 +41,32 @@ public class EventHander {
                 text.setCreateTime(new Date().getTime());
                 text.setContent("你点了我一下~");
                 message = MessageUtil.textMessageToXML(text);
+            }else if("FN4".equals(eventKey)){
+                PicAndTextMessage ptm = new PicAndTextMessage();
+                ptm.setMsgType("news");
+
+                Item item = new Item();
+                item.setTitle("文章1");
+                item.setDescription("这是第一篇文章");
+                item.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/nicmajLyG6Odrn2yEoAWZY1PJSoLptLX5fpZDHGxJlYG1ZeI7SicRUXW5zx2iaucC1jXOVmhr6jj97mSS31AS9DQA/0");
+                item.setUrl("http://120.24.45.38/test");
+                ptm.addItem(item);
+
+                Item item2 = new Item();
+                item2.setTitle("文章2");
+                item2.setDescription("这是第二篇文章");
+                item2.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/nicmajLyG6Odrn2yEoAWZY1PJSoLptLX5fpZDHGxJlYG1ZeI7SicRUXW5zx2iaucC1jXOVmhr6jj97mSS31AS9DQA/0");
+                item2.setUrl("http://120.24.45.38/test");
+                ptm.addItem(item2);
+
+                ptm.setToUserName(toUserName);
+                ptm.setFromUserName(fromUserName);
+                ptm.setCreateTime(new Date().getTime());
+                ptm.setArticleCount(ptm.getArticles().size()+"");
+                XStream xstream = new XStream();              // 使用XStream将实体类的实例转换成xml格式
+                xstream.alias("xml", ptm.getClass()); // 将xml的默认根节点替换成“xml”
+                xstream.alias("item", Item.class); //别名替换类
+                message = xstream.toXML(ptm);
             }
         }
         return message;

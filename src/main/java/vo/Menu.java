@@ -49,8 +49,14 @@ public class Menu {
         Button fb3 = new Button();
         fb3.setName("3.VIEW_TEST");
         fb3.setType("view");
-        fb3.setUrl("http://yyf.ngrok.cc/test");
+        fb3.setUrl("http://120.24.45.38/test");
         fb.add(fb3);
+
+        Button fb4 = new Button();
+        fb4.setName("4.图文消息");
+        fb4.setType("click");
+        fb4.setKey("FN4");
+        fb.add(fb4);
 
 
         Menu menu = new Menu();
