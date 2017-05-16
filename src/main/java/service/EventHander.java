@@ -1,9 +1,7 @@
 package service;
 
 import com.thoughtworks.xstream.XStream;
-import po.Item;
-import po.PicAndTextMessage;
-import po.TextMeaasge;
+import po.*;
 import utils.MessageUtil;
 
 import java.util.Date;
@@ -48,7 +46,7 @@ public class EventHander {
                 Item item = new Item();
                 item.setTitle("文章1");
                 item.setDescription("这是第一篇文章");
-                item.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/nicmajLyG6Odrn2yEoAWZY1PJSoLptLX5fpZDHGxJlYG1ZeI7SicRUXW5zx2iaucC1jXOVmhr6jj97mSS31AS9DQA/0");
+                item.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/nicmajLyG6OfdFdeVhtDY42OOS9y3r1JETYgNUvpNFVcsc2icdDlky7m5SjdovyzZu9oqDNwxFKnibdPZ0HGic5MtQ/0");
                 item.setUrl("http://120.24.45.38/test");
                 ptm.addItem(item);
 
@@ -59,14 +57,37 @@ public class EventHander {
                 item2.setUrl("http://120.24.45.38/test");
                 ptm.addItem(item2);
 
-                ptm.setToUserName(toUserName);
-                ptm.setFromUserName(fromUserName);
+                ptm.setToUserName(fromUserName);
+                ptm.setFromUserName(toUserName);
                 ptm.setCreateTime(new Date().getTime());
                 ptm.setArticleCount(ptm.getArticles().size()+"");
                 XStream xstream = new XStream();              // 使用XStream将实体类的实例转换成xml格式
                 xstream.alias("xml", ptm.getClass()); // 将xml的默认根节点替换成“xml”
                 xstream.alias("item", Item.class); //别名替换类
                 message = xstream.toXML(ptm);
+            }else if("TEST".equals(eventKey)){
+                PicMessage pm = new PicMessage();
+                pm.setFromUserName(toUserName);
+                pm.setToUserName(fromUserName);
+                pm.setMsgType("image");
+                pm.setCreateTime(new Date().getTime());
+                PicMessageImage pmi = new PicMessageImage();
+                pmi.setMediaId("9krGQleOLNXdXXJDl1eAsDs3Ff4sei1eWujS5gpp5Q8fSaED19L2xBiKoPka2N1z");
+                pm.setImage(pmi);
+                XStream xstream = new XStream();
+                xstream.alias("xml", pm.getClass()); // 将xml的默认根节点替换成“xml”
+                xstream.alias("image", pmi.getClass()); // 将xml的默认根节点替换成“xml”
+                message = xstream.toXML(pm);
+
+               /* TextMeaasge text = new TextMeaasge();
+                text.setFromUserName(toUserName);
+                text.setToUserName(fromUserName);
+                text.setMsgType("text");
+                text.setCreateTime(new Date().getTime());
+                text.setContent("你点了我一下test~");
+                XStream xstream = new XStream();
+                xstream.alias("xml", text.getClass()); // 将xml的默认根节点替换成“xml”
+                message = xstream.toXML(text);*/
             }
         }
         return message;

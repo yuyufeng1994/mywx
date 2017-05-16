@@ -59,8 +59,14 @@ public class Menu {
         fb.add(fb4);
 
 
+        Button test = new Button();
+        test.setName("TEST");
+        test.setType("click");
+        test.setKey("TEST");
+
         Menu menu = new Menu();
         menu.addButton(button);
+        menu.addButton(test);
         menu.addButton(fb);
 
         return JSONObject.toJSON(menu).toString();
