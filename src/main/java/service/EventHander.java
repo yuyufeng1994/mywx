@@ -14,7 +14,6 @@ public class EventHander {
         if("subscribe".equals(event)){
             message = subscribeEvent(toUserName, fromUserName);
         }else if("CLICK".equals(event)){
-            System.out.println(eventKey);
             if("FN1".equals(eventKey)){
                 TextMeaasge text = new TextMeaasge();
                 text.setFromUserName(toUserName);
@@ -78,16 +77,6 @@ public class EventHander {
                 xstream.alias("xml", pm.getClass()); // 将xml的默认根节点替换成“xml”
                 xstream.alias("image", pmi.getClass()); // 将xml的默认根节点替换成“xml”
                 message = xstream.toXML(pm);
-
-               /* TextMeaasge text = new TextMeaasge();
-                text.setFromUserName(toUserName);
-                text.setToUserName(fromUserName);
-                text.setMsgType("text");
-                text.setCreateTime(new Date().getTime());
-                text.setContent("你点了我一下test~");
-                XStream xstream = new XStream();
-                xstream.alias("xml", text.getClass()); // 将xml的默认根节点替换成“xml”
-                message = xstream.toXML(text);*/
             }
         }
         return message;

@@ -49,8 +49,8 @@ public class WeixinServlet extends HttpServlet {
         try {
             Map<String, String> map = MessageUtil.xmlToMap(request);
             String message = ResponseHander.doType(map);
-            System.out.println(message);
-            System.out.println("====================================");
+//            System.out.println(message);
+//            System.out.println("====================================");
             out.print(message);                            // 将回应发送给微信服务器
         } catch (DocumentException e) {
             e.printStackTrace();

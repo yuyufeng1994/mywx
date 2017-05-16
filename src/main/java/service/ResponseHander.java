@@ -20,11 +20,10 @@ public class ResponseHander {
         String content = map.get("Content");
         String PicUrl = map.get("PicUrl");
         String message = null;
-        System.out.println("接收消息类型：" + msgType);
         if ("text".equals(msgType)) {                // 对文本消息进行处理
             message = textHander(toUserName, fromUserName, content);
         } else if ("image".equals(msgType)) {
-            message = messageHander(toUserName, fromUserName, PicUrl);
+            message = imageHander(toUserName, fromUserName, PicUrl);
         }else if("event".equals(msgType)){
             String event = map.get("Event");
             String eventKey = map.get("EventKey");
@@ -45,11 +44,10 @@ public class ResponseHander {
         text.setCreateTime(new Date().getTime());
         text.setContent("你发送的消息是：" + content);
         message = MessageUtil.textMessageToXML(text);
-        System.out.println(message);
         return message;
     }
 
-    private static String messageHander(String toUserName, String fromUserName, String picUrl) throws IOException {
+    private static String imageHander(String toUserName, String fromUserName, String picUrl) throws IOException {
         String message;
         TextMeaasge text = new TextMeaasge();
         text.setFromUserName(toUserName);         //
